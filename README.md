@@ -5,13 +5,13 @@ Find longest identifier in C++ Standard.
 $ ./cpplongestid.py
 atomic_compare_exchange_strong_explicit 39
 hardware_constructive_interference_size 39
-propagate_on_container_move_assignment 38
 propagate_on_container_copy_assignment 38
 hardware_destructive_interference_size 38
-atomic_compare_exchange_weak_explicit 37
+propagate_on_container_move_assignment 38
 select_on_container_copy_construction 37
-uninitialized_default_construct_n 33
-atomic_flag_test_and_set_explicit 33
+atomic_compare_exchange_weak_explicit 37
+is_trivially_default_constructible_v 36
+has_unique_object_representations_v 35
 ...
 ```
 
