@@ -41,7 +41,7 @@ def parse_roottex(basedir, texfile):
             subtex = m.group(1) + '.tex'
             ids = parse_subtex(basedir, subtex)
             identifers.update(ids)
-    identifers = sorted(list(identifers), key=lambda s: -len(s))
+    identifers = sorted(list(identifers), key=lambda s: (-len(s), s))
     for name in identifers:
         print(name, len(name))
 
