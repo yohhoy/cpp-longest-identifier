@@ -14,12 +14,17 @@ def parse_subtex(basedir, texfile):
     identifers = set()
     with open(os.path.join(basedir, texfile), 'r') as f:
         in_itemdecl = False
+        in_codeblock = False
         for line in f:
             if re.match(r'\\begin\{itemdecl\}', line):
                 in_itemdecl = True
             elif re.match(r'\\end\{itemdecl\}', line):
                 in_itemdecl = False
-            elif in_itemdecl:
+            elif re.match(r'\\begin\{codeblock\}', line):
+                in_codeblock = True
+            elif re.match(r'\\end\{codeblock\}', line):
+                in_codeblock = False
+            elif in_itemdecl or in_codeblock:
                 m = re.findall(r'[_a-z][_a-z0-9]+', line)
                 if m:
                     identifers.update(m)
