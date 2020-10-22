@@ -8,20 +8,21 @@ import os
 import re
 
 LENGTH_LIMIT = 30
+USE_EXAMPLE = True
 
 
 def parse_subtex(basedir, texfile):
     identifers = set()
+    blk = {k[0]: False for k in ['itemdecl', 'codeblock', 'example']}
+    pattern = re.compile(r'\\(begin|end)\{(itemdecl|codeblock|example)\}')
     with open(os.path.join(basedir, texfile), 'r') as f:
-        block = {k: False for k in ['itemdecl', 'codeblock', 'example']}
         for line in f:
-            m = re.match(r'\\(begin|end)\{(itemdecl|codeblock|example)\}', line)
+            m = pattern.match(line)
             if m:
-                block[m.groups()[1]] = (m.groups()[0] == 'begin')
-            elif (block['itemdecl'] or block['codeblock']) and not block['example']:
-                m = re.findall(r'[_a-z][_a-z0-9]+', line)
-                if m:
-                    identifers.update(m)
+                key = m.groups()[1][0]  # use first char as key
+                blk[key] = (m.groups()[0] == 'begin')
+            elif (blk['i'] or blk['c']) and (not blk['e'] or USE_EXAMPLE):
+                identifers.update(re.findall(r'[_a-z][_a-z0-9]+', line))
     return [s for s in identifers if len(s) > LENGTH_LIMIT]
 
 
